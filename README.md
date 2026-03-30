@@ -15,11 +15,20 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 uv python install 3.8.10
 ```
 
+## Creating Venv
+```console
+uv venv --python 3.8.10
+```
+
+## Initializing Venv
+```console
+source .venv/bin/activate
+```
+
 ## Getting YOLO Ultralytics
 ```console
 uv pip install ultralytics
 ```
 
 ## YOLO Models
-
 Get the YOLO 26 Models [here](https://docs.ultralytics.com/pt/tasks/segment/#predict).
