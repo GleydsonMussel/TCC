@@ -48,20 +48,9 @@ RUN echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
 # Initialize rosdep
 RUN rosdep init && rosdep update
 
-# Create catkin_ws
-RUN mkdir -p /workspace/catkin_ws/src
+# Source on ROS
+RUN /bin/bash -c "source /opt/ros/noetic/setup.bash"
 
-# Set up workspace
-WORKDIR /workspace/catkin_ws
-
-RUN /bin/bash -c "source /opt/ros/noetic/setup.bash && catkin_make"
-
-# Install Python dependencies
-RUN python3 -m venv ./venv && \
-    ./venv/bin/pip install --upgrade pip && \
-    ./venv/bin/pip install ultralytics matplotlib Pillow opencv-contrib-python
-
-# Adicione ao PATH para usar o pip do ambiente virtual
-ENV PATH="/workspace/catkin_ws/venv/bin:$PATH"
+RUN cd /workspace
 
 CMD ["bash"]

@@ -5,22 +5,15 @@ Collision Avoidance System Using Stereo Cameras
 
 # Dependecies
 
-## Get UV
-```console
-curl -LsSf https://astral.sh/uv/install.sh | sh
-```
-# Jetson Configuration
+## Jetson Configuration
 
-## Setting Up Docker
+### Install NVIDIA Container Toolkit
+
+### Setting Up Docker
 
 For build the image:
 ```console
 docker compose up --build
-```
-
-After the image is built, to initialize the container:
-```console
-docker compose up
 ```
 
 In order to enter in the container to execute things:
@@ -28,27 +21,33 @@ In order to enter in the container to execute things:
 docker exec -it ID_CONTAINER bash
 ```
 
-# Test Outside Jetson
+## Test Outside Jetson
 
-## Getting Python Version
+### Getting ARM Architecture in Docker
+
+In order to run the system outside the Jetson, but still having the `ARM` architecture, it's necessary install some things to make
+docker able to do so. 
+
+Run:
 ```console
-uv python install 3.8.10
+sudo docker run --privileged --rm tonistiigi/binfmt --install all
 ```
 
-## Creating Venv
+This will install the ARM support.  
+
+To build the image and run the container:
 ```console
-uv venv --python 3.8.10
+docker compose up --build
 ```
 
-## Initializing Venv
-```console
-source .venv/bin/activate
-```
+It's recommended to use the dev-container extension to use the deployed container to develop
 
-## Getting YOLO Ultralytics
-```console
-uv pip install ultralytics
-```
+## Setting Python Dependencies
 
+To install all the dependencies needed and setup the venv, run:
+```console
+chmod +x setup_enviroment.sh
+./setup_enviroment.sh
+```
 ## YOLO Models
 Get the YOLO 26 Models [here](https://docs.ultralytics.com/pt/tasks/segment/#predict).

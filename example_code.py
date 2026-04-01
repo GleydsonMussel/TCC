@@ -3,16 +3,10 @@ from PIL import Image
 import numpy as np
 import cv2
 
-img = Image.open("Mangalarga-marchador.jpg")
+img = Image.open("Teste.jpeg")
 img_np = np.array(img)
 
-model = YOLO("yolo26n-seg.pt")
-from ultralytics import YOLO
-from PIL import Image
-import numpy as np
-import cv2
-
-model = YOLO("./models/yolo26n-seg.pt")
+model = YOLO("./models/yolov8n-seg.pt")
 results = model.predict(img)
 
 result = results[0]
