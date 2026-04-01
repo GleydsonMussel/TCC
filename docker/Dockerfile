@@ -51,6 +51,7 @@ RUN rosdep init && rosdep update
 # Source on ROS
 RUN /bin/bash -c "source /opt/ros/noetic/setup.bash"
 
-RUN cd /workspace
+# Already change the folder to workspace
+WORKDIR /workspace
 
 CMD ["bash"]

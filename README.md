@@ -33,14 +33,15 @@ Run:
 sudo docker run --privileged --rm tonistiigi/binfmt --install all
 ```
 
-This will install the ARM support.  
+This will install the ARM support
 
 To build the image and run the container:
 ```console
 docker compose up --build
 ```
 
-It's recommended to use the dev-container extension to use the deployed container to develop
+It's recommended to use the dev-container extension to use the deployed container to develop, for that, download the extension and use
+`Ctrl` + `Shift` + `p`.
 
 ## Setting Python Dependencies
 
@@ -50,4 +51,7 @@ chmod +x setup_enviroment.sh
 ./setup_enviroment.sh
 ```
 ## YOLO Models
+
 Get the YOLO 26 Models [here](https://docs.ultralytics.com/pt/tasks/segment/#predict).
+
+Get the YOLO 8 Models [here](https://docs.ultralytics.com/pt/models/yolov8/#yolov8-usage-examples).
