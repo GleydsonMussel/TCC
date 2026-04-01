@@ -12,10 +12,7 @@ from PIL import Image
 import numpy as np
 import cv2
 
-img = Image.open("Teste2.jpeg")
-img_np = np.array(img)
-
-model = YOLO("yolo26n-seg.pt")
+model = YOLO("./models/yolo26n-seg.pt")
 results = model.predict(img)
 
 result = results[0]

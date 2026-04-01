@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  ros_noetic:
+    image: ubuntu:20.04
+    container_name: ros_noetic_container
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    tty: true
+    volumes:
+      - ./:/workspace
+    environment:
+      - LANG=C.UTF-8
+    networks:
+      - ros_network
+
+networks:
+  ros_network:
+    driver: bridge
+

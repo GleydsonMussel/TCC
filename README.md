@@ -9,6 +9,26 @@ Collision Avoidance System Using Stereo Cameras
 ```console
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
+# Jetson Configuration
+
+## Setting Up Docker
+
+For build the image:
+```console
+docker compose up --build
+```
+
+After the image is built, to initialize the container:
+```console
+docker compose up
+```
+
+In order to enter in the container to execute things:
+```console
+docker exec -it ID_CONTAINER bash
+```
+
+# Test Outside Jetson
 
 ## Getting Python Version
 ```console
