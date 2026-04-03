@@ -7,73 +7,94 @@ Collision Avoidance System Using Stereo Cameras
 
 ## Jetson Configuration
 
-### Install NVIDIA Container Toolkit
-
+### CUDA
+Check if CUDA is fine:
 ```console
-sudo apt-get update && sudo apt-get install -y --no-install-recommends \
-   ca-certificates \
-   curl \
-   gnupg2
+nvcc --version
 ```
 
-```console
-curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
-  && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
-    sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
-    sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
-```
+If the command is found, and it returns something, then CUDA is ready to go !
+
+If it does not, try setting CUDA in in bashrc:
 
 ```console
-sudo sed -i -e '/experimental/ s/^#//g' /etc/apt/sources.list.d/nvidia-container-toolkit.list
+sudo nano ~/.bashrc
 ```
+
+Copy and paste the following in the end of the file:
 
 ```console
-sudo apt-get update 
+export PATH=/usr/local/cuda-10.2/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64:$LD_LIBRARY_PATH
 ```
+
+Reload the `~/.bashrc`:
 
 ```console
-export NVIDIA_CONTAINER_TOOLKIT_VERSION=1.19.0-1
-  sudo apt-get install -y \
-      nvidia-container-toolkit=${NVIDIA_CONTAINER_TOOLKIT_VERSION} \
-      nvidia-container-toolkit-base=${NVIDIA_CONTAINER_TOOLKIT_VERSION} \
-      libnvidia-container-tools=${NVIDIA_CONTAINER_TOOLKIT_VERSION} \
-      libnvidia-container1=${NVIDIA_CONTAINER_TOOLKIT_VERSION}
+source ~/.bashrc
 ```
+
+### Install ZED SDK
+
+In order to make things easier, in the `/ZED_SDK/` I already put the the `.run` file needed.
+
+You can get the ZED SDK for Ubuntu 18.04 for Jetson Nano [here](https://www.stereolabs.com/en-br/developers/release/3.8). Download 
+the `ZED SDK for L4T 32.7 (JetPack 4.6.X) 3.8.2 (Jetson Nano, TX2/TX2 NX, Xavier AGX/NX, CUDA 10.2)` version.
+
+You can also install via terminal, which is recommended instead of getting via web browser:
+```console
+cd ~/Downloads
+wget https://stereolabs.sfo2.cdn.digitaloceanspaces.com/zedsdk/3.8/ZED_SDK_Tegra_L4T32.7_v3.8.2.zstd.run
+```
+
+After getting the .run file:
+```console
+# Instalar o zstd (necessário para descompactar)
+sudo apt update
+sudo apt install zstd
+
+# Dar permissão de execução
+chmod +x ZED_SDK_Tegra_L4T32.7_v3.8.2.zstd.run
+
+# Executar o instalador
+./ZED_SDK_Tegra_L4T32.7_v3.8.2.zstd.run
+```
+
+### ZED ROS Wrapper
+
+The last ZED ROS Wrapper with compatibility for `ROS Melodic` is the 3.8.x. It's already present in the `/src/` folder and was got from 
+[here](https://github.com/stereolabs/zed-ros-wrapper/releases).
+
+### Install ROS Melodic
+
+Setup your computer to accept software from packages.ros.org.
 
 ```console
-sudo nvidia-ctk runtime configure --runtime=docker
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 ```
+
+Set up your keys
 
 ```console
-sudo systemctl restart docker
+curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
 ```
 
+Update the repositories
 ```console
-sudo nvidia-ctk config --set nvidia-container-cli.no-cgroups --in-place
+sudo apt update
 ```
 
-Run the container:
-
+Get the full `ROS Melodic`
 ```console
-sudo docker run --rm -it --runtime=nvidia \
-  nvcr.io/nvidia/l4t-pytorch:r32.7.1
+sudo apt install ros-melodic-desktop-full
 ```
 
-### Setting Up Docker
-
-For build the image:
+After the `ROS Melodic` is installed, put it on the ~/.bashrc:
 ```console
-docker compose up --build
+echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
+source ~/.bashrc
 ```
 
-In order to enter in the container to execute things:
-```console
-docker exec -it ID_CONTAINER bash
-```
-
-```console
-pip3 install pycuda
-```
 ## Test Outside Jetson
 
 ### Getting ARM Architecture in Docker
