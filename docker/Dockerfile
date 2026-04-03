@@ -1,5 +1,5 @@
 # Use Ubuntu 20.04 as the base image
-FROM ubuntu:20.04
+FROM nvcr.io/nvidia/l4t-base:r35.2.1
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
